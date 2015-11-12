@@ -1,14 +1,13 @@
-#ifndef TRANSPOSE_IMPL
-#define TRANSPOSE_IMPL
-
-void naive_transpose(int *src, int *dst, int w, int h)
+#ifdef NAIVE_TRANSPOSE
+void transpose(int *src, int *dst, int w, int h)
 {
     for (int x = 0; x < w; x++)
         for (int y = 0; y < h; y++)
             *(dst + x * h + y) = *(src + y * w + x);
 }
-
-void sse_transpose(int *src, int *dst, int w, int h)
+#endif /* naive_transpose */
+#ifdef SSE_TRANSPOSE
+void transpose(int *src, int *dst, int w, int h)
 {
     for (int x = 0; x < w; x += 4) {
         for (int y = 0; y < h; y += 4) {
@@ -31,8 +30,9 @@ void sse_transpose(int *src, int *dst, int w, int h)
         }
     }
 }
-
-void sse_prefetch_transpose(int *src, int *dst, int w, int h)
+#endif /* naive_transpose */
+#ifdef SSE_PREFETCH_TRANSPOSE
+void transpose(int *src, int *dst, int w, int h)
 {
     for (int x = 0; x < w; x += 4) {
         for (int y = 0; y < h; y += 4) {
